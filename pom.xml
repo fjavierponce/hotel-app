@@ -6,10 +6,13 @@
     <groupId>com.fponce</groupId>
     <artifactId>hotel-ns</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+
     <modules>
         <module>hotel-api-server</module>
+        <module>hotel-api-dao</module>
     </modules>
-    <packaging>pom</packaging>
 
     <name>hotel-ns</name>
     <description>Demo project for hotel administration</description>
