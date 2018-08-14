@@ -6,14 +6,79 @@
     <groupId>com.fponce</groupId>
     <artifactId>hotel-ns</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
+
+    <properties>
+        <springframework.version>5.0.8.RELEASE</springframework.version>
+        <springjdbc.version>4.2.7.RELEASE</springjdbc.version>
+        <liquibase-core.version>3.6.2</liquibase-core.version>
+        <spring-boot-web-starter.version>2.0.4.RELEASE</spring-boot-web-starter.version>
+        <postgres-sql.version>42.2.4</postgres-sql.version>
+    </properties>
     <packaging>pom</packaging>
 
 
     <modules>
+        <module>hotel-api-model</module>
+        <module>hotel-api-persistence</module>
+        <module>hotel-api-services</module>
         <module>hotel-api-server</module>
-        <module>hotel-api-dao</module>
     </modules>
 
     <name>hotel-ns</name>
     <description>Demo project for hotel administration</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${springjdbc.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${springframework.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-web-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres-sql.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+    </dependencies>
 </project>
