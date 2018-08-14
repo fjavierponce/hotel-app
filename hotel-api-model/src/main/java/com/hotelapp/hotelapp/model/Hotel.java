@@ -1,9 +1,23 @@
 package com.hotelapp.hotelapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Hotel {
 
     private int id;
+
+    @NotNull(message = "Hotel name must not be null")
     private String name;
+
+    @Min(value = 1, message = "Category must be a number between 1 and 5")
+    @Max(value = 5, message = "Category must be a number between 1 and 5")
     private int category;
 
     public int getId() {
