@@ -7,6 +7,7 @@ import com.hotelapp.persistence.HotelRepository;
 import javax.inject.Inject;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.UUID;
 
 public class HotelServiceImpl implements HotelService {
 
@@ -14,8 +15,6 @@ public class HotelServiceImpl implements HotelService {
     HotelRepository hotelRepository;
 
     public void createHotel(Hotel hotel) throws SQLException {
-            // TODO generate id
-            // TODO implement exceptions (read Effective Java exception)
-            hotelRepository.createHotel(new Random().nextInt(), hotel.getName(), hotel.getCategory());
+            hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
     }
 }

@@ -1,34 +1,35 @@
-CREATE TABLE HOTEL(
-    ID int not null,
+CREATE TABLE IF NOT EXISTS HOTEL(
+    ID uuid not null,
     NAME varchar(100),
     CATEGORY int,
     PRIMARY KEY(ID)
 );
 
-CREATE TABLE ROOM_TYPE(
-    ID int not null,
-    TYPE varchar(50),
-    ID_HOTEL int,
+CREATE TABLE IF NOT EXISTS ROOM_TYPE(
+    ID uuid not null,
+    DESCRIPTION varchar(50),
+    ID_HOTEL uuid,
     PRIMARY KEY(ID),
     FOREIGN KEY(ID_HOTEL) REFERENCES HOTEL(ID)
 );
 
-CREATE TABLE ROOM(
-    ID int not null,
-    NAME varchar(100),
-    STATUS varchar(50),
-    TYPE int,
-    ID_HOTEL int,
-    PRIMARY KEY(ID),
-    FOREIGN KEY(TYPE) REFERENCES ROOM_TYPE(ID),
-    FOREIGN KEY(ID_HOTEL) REFERENCES HOTEL(ID)
-);
-
-CREATE TABLE ROOM_TYPE_TARIFF(
-    ID int not null,
-    NUMBER_GUESTS int,
+CREATE TABLE IF NOT EXISTS ROOM_TARIFF(
+    ID uuid not null,
+    TARIFF_TYPE int,
     TARIFF NUMERIC(2),
-    ID_ROOM_TYPE int,
+    ID_HOTEL uuid,
     PRIMARY KEY(ID),
+    FOREIGN KEY(ID_HOTEL) REFERENCES HOTEL(ID)
+);
+
+CREATE TABLE IF NOT EXISTS ROOM(
+    ID uuid not null,
+    STATUS varchar(50),
+    CLEANING_STATUS int,
+    ID_ROOM_TARIFF uuid,
+    ID_ROOM_TYPE uuid,
+    PRIMARY KEY(ID),
+    FOREIGN KEY(ID_ROOM_TARIFF) REFERENCES ROOM_TARIFF(ID),
     FOREIGN KEY(ID_ROOM_TYPE) REFERENCES ROOM_TYPE(ID)
 );
+
