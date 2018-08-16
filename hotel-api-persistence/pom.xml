@@ -11,9 +11,6 @@
 
     <artifactId>hotel-api-persistence</artifactId>
 
-    <properties>
-        <hotel-api-model.version>0.0.1-SNAPSHOT</hotel-api-model.version>
-    </properties>
 
     <dependencies>
         <dependency>

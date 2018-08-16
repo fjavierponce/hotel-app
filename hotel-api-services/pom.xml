@@ -11,11 +11,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hotel-api-services</artifactId>
 
-    <properties>
-        <hotel-api-model.version>0.0.1-SNAPSHOT</hotel-api-model.version>
-        <hotel-api-persistence.version>0.0.1-SNAPSHOT</hotel-api-persistence.version>
-    </properties>
-
 
     <dependencies>
         <dependency>
