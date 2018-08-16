@@ -16,10 +16,13 @@ import java.sql.SQLException;
 
 @RestController
 @RequestMapping(value = "v1/hotels")
-public class HotelController {
+class HotelController {
 
-    @Inject
     private HotelService hotelService;
+
+    HotelController(HotelService hotelService) {
+        this.hotelService = hotelService;
+    }
 
     @PostMapping
     public ResponseEntity createHotel(@Valid @RequestBody Hotel hotel) {

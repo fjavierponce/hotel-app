@@ -1,4 +1,4 @@
-package com.hotelapp.persistence;
+package com.fponce.hotelapp.persistence;
 
 import java.sql.SQLException;
 import java.util.UUID;

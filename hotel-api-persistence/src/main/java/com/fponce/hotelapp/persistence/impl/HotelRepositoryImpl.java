@@ -1,21 +1,25 @@
-package com.hotelapp.persistence.impl;
+package com.fponce.hotelapp.persistence.impl;
 
-import com.hotelapp.persistence.HotelRepository;
+import com.fponce.hotelapp.persistence.HotelRepository;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class HotelRepositoryImpl implements HotelRepository {
+@Component
+class HotelRepositoryImpl implements HotelRepository {
 
-    @Inject
-    DataSource postgresDataSource;
+    private DataSource dataSource;
+
+    HotelRepositoryImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public void createHotel(UUID id, String name, int category) throws SQLException {
-        Connection connection = postgresDataSource.getConnection();
+        Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO HOTEL" +
             " (ID, NAME, CATEGORY) VALUES (?, ?, ?)");
         preparedStatement.setObject(1, id);
