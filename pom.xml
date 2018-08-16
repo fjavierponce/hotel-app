@@ -19,7 +19,6 @@
         <postgres-sql.version>42.2.4</postgres-sql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot-web-starter.version>2.0.4.RELEASE</spring-boot-web-starter.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <spring-boot-dependencies.version>2.0.4.RELEASE</spring-boot-dependencies.version>
     </properties>
