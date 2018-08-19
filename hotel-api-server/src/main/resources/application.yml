@@ -6,4 +6,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/hotel_app_fponce
 server:
   port: 8080
-  context-path: /api/hotelapp
+  servlet:
+    context-path: /api/hotelapp

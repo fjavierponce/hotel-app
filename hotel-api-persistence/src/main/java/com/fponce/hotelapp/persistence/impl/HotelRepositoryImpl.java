@@ -1,7 +1,7 @@
 package com.fponce.hotelapp.persistence.impl;
 
 import com.fponce.hotelapp.persistence.HotelRepository;
-import org.springframework.stereotype.Component;
+import org.httprpc.sql.Parameters;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -19,13 +19,15 @@ class HotelRepositoryImpl implements HotelRepository {
         this.dataSource = dataSource;
     }
 
-    public void createHotel(String id, String name, int category) throws SQLException {
+    public void createHotel(UUID id, String name, int category) throws SQLException {
         Connection connection = dataSource.getConnection();
-        String insertHotelSqlCommand = "INSERT INTO HOTEL (ID, NAME, CATEGORY) VALUES (?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insertHotelSqlCommand);
-        preparedStatement.setString(1, id);
-        preparedStatement.setString(2, name);
-        preparedStatement.setInt(3, category);
+        String insertHotelSqlCommand = "INSERT INTO HOTEL (ID, NAME, CATEGORY) VALUES (:id, :name, :category)";
+        Parameters sqlWithParameters = Parameters.parse(insertHotelSqlCommand);
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlWithParameters.getSQL());
+        sqlWithParameters.put("id", id);
+        sqlWithParameters.put("name", name);
+        sqlWithParameters.put("category", category);
+        sqlWithParameters.apply(preparedStatement);
         preparedStatement.executeUpdate();
     }
 }

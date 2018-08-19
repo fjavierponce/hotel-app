@@ -5,5 +5,5 @@ import java.util.UUID;
 
 public interface HotelRepository {
 
-    void createHotel(String id, String name, int category) throws SQLException;
+    void createHotel(UUID id, String name, int category) throws SQLException;
 }
