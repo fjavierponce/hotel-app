@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.sql.SQLException;
 
-@RestController
-@RequestMapping(value = "v1/hotels")
+@RestController("v1/hotels")
 class HotelController {
 
     private final Logger logger = LoggerFactory.getLogger(HotelController.class);
