@@ -1,5 +1,6 @@
 package com.fponce.hotelapp.hotel;
 
+import com.fponce.hotelapp.exception.HotelAppServicesException;
 import com.fponce.hotelapp.hotel.service.HotelService;
 import com.hotelapp.hotelapp.model.Hotel;
 
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 
 @RestController("v1/hotels")
 class HotelController {
@@ -26,14 +26,8 @@ class HotelController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity createHotel(@Valid @RequestBody Hotel hotel) {
-        try {
-            hotelService.createHotel(hotel);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (SQLException e) {
-            logger.error("createHotel endpoint failed with hotel name={}", hotel.getName());
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity createHotel(@Valid @RequestBody Hotel hotel) throws HotelAppServicesException {
+        hotelService.createHotel(hotel);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -1,5 +1,6 @@
 package com.fponce.hotelapp.hotel.impl;
 
+import com.fponce.hotelapp.exception.HotelAppServicesException;
 import com.fponce.hotelapp.hotel.service.HotelService;
 import com.hotelapp.hotelapp.model.Hotel;
 import com.fponce.hotelapp.persistence.HotelRepository;
@@ -17,7 +18,12 @@ class HotelServiceImpl implements HotelService {
         this.hotelRepository = hotelRepository;
     }
 
-    public void createHotel(Hotel hotel) throws SQLException {
+    public void createHotel(Hotel hotel) throws HotelAppServicesException {
+        try {
             hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new HotelAppServicesException("Error creating the hotel.", e);
+        }
     }
 }
