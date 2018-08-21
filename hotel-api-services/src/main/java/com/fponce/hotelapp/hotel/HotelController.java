@@ -27,6 +27,7 @@ class HotelController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity createHotel(@Valid @RequestBody Hotel hotel) throws HotelAppServicesException {
+        logger.info("Calling createHotel with {}", hotel);
         hotelService.createHotel(hotel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
