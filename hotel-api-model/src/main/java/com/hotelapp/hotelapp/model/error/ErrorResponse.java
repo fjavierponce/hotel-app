@@ -9,7 +9,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorResponse {
 
-    private String errorMessage;
+    private String errorDescription;
 
     private List<String> errors;
 
@@ -18,7 +18,7 @@ public class ErrorResponse {
     }
 
     public ErrorResponse(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.errorDescription = errorMessage;
     }
 
     public List<String> getErrors() {
@@ -30,10 +30,10 @@ public class ErrorResponse {
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return errorDescription;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setErrorMessage(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 }
