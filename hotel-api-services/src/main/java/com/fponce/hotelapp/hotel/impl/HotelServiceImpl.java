@@ -25,7 +25,7 @@ class HotelServiceImpl implements HotelService {
         try {
             hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
         } catch (SQLException e) {
-            logger.error("Error creating hotel: {}", hotel);
+            logger.error("Error creating hotel: {} Cause: {}", hotel, e.getMessage());
             throw new HotelAppServicesException("Error creating the hotel.", e);
         }
     }
