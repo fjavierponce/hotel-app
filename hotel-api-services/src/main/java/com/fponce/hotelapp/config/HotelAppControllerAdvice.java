@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 class HotelAppControllerAdvice {
 
     @ExceptionHandler(HotelAppServicesException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
     @ResponseBody
     public ErrorResponse handleGlobalError(HotelAppServicesException e) {
         return new ErrorResponse(e.getMessage());
