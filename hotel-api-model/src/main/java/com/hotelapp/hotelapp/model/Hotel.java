@@ -3,9 +3,6 @@ package com.hotelapp.hotelapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -13,13 +10,16 @@ import java.util.UUID;
 public class Hotel {
 
     private UUID id;
-
-    @NotNull(message = "Hotel name must not be null")
     private String name;
-
-    @Min(value = 1, message = "Category must be a number between 1 and 5")
-    @Max(value = 5, message = "Category must be a number between 1 and 5")
     private int category;
+
+    public Hotel() {}
+
+    public Hotel(Builder builder) {
+        this.name = builder.name;
+        this.category = builder.category;
+        this.id = builder.id;
+    }
 
     public UUID getId() {
         return id;
@@ -65,5 +65,30 @@ public class Hotel {
     @Override
     public String toString() {
         return String.format("Hotel ID=%s, NAME=%s (%d stars)", this.id, this.name, this.category);
+    }
+
+    public static class Builder {
+        private UUID id;
+        private final String name;
+        private int category;
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder category(int category) {
+            this.category = category;
+            return this;
+        }
+
+        public Builder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Hotel build() {
+            return new Hotel(this);
+        }
+
     }
 }

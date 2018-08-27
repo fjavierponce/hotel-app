@@ -35,6 +35,15 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.fponce</groupId>
             <artifactId>hotel-api-services</artifactId>
             <version>${hotel-api-services.version}</version>
@@ -43,10 +52,6 @@
             <groupId>com.fponce</groupId>
             <artifactId>hotel-api-persistence</artifactId>
             <version>${hotel-api-persistence.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
 
