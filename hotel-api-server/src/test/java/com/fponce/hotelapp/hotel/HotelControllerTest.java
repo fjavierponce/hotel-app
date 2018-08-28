@@ -12,10 +12,24 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -71,5 +85,17 @@ public class HotelControllerTest {
                     .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
             ).andDo(print())
             .andExpect(status().isPreconditionFailed()).andReturn();
+
+    @Test
+    public void getHotels() throws Exception {
+        hotelRepository.createHotel(UUID.randomUUID(), "getHotelsApiTest", 5);
+        hotelRepository.createHotel(UUID.randomUUID(), "getHotelsApiTest2", 5);
+        List<Hotel> hotels = hotelRepository.getHotels();
+
+        MvcResult result = this.mockMvc
+            .perform(get(API_HOTELS_ENDPOINT)).andDo(print())
+            .andExpect(status().is2xxSuccessful())
+            .andExpect(jsonPath("$", hasSize(hotels.size()))).andReturn();
+
     }
 }
