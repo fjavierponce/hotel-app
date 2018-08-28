@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - preconditions:
+      dbms: postgresql
+      runningAs: SYSTEM
+  - changeSet:
+      id: 1
+      author: fponce
+      runInTransaction: false
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            endDelimiter: \nGO
+            path: db/sql/createDB.sql
+            splitStatements: true
+            stripComments: true
