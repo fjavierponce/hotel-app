@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
 
@@ -60,5 +59,17 @@ public class HotelControllerTest {
         assertThat(hotelFromDatabase).isNotEmpty();
         assertThat(hotelFromDatabase.get().getName()).isEqualTo(hotelName);
         assertThat(hotelFromDatabase.get().getCategory()).isEqualTo(category);
+    }
+
+    @Test
+    public void createHotelWithInvalidParameters() throws Exception {
+        Hotel hotelWithInvalidParameters = new Hotel.Builder("").build();
+        this.mockMvc
+            .perform(
+                post(API_HOTELS_ENDPOINT)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
+            ).andDo(print())
+            .andExpect(status().isPreconditionFailed()).andReturn();
     }
 }
