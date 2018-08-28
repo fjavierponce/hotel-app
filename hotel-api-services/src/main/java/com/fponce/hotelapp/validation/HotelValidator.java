@@ -8,7 +8,7 @@ public class HotelValidator implements Validator<Hotel> {
 
     @Override
     public ValidationResult validate(Hotel hotel) {
-        if (hotel.getName() == null)
+        if (hotel.getName() == null || hotel.getName().isEmpty())
             return ValidationResult.failed("Hotel name must not be empty.");
         return ValidationResult.ok();
     }
