@@ -1,9 +1,6 @@
 databaseChangeLog:
-  - preconditions:
-      dbms: postgresql
-      runningAs: SYSTEM
   - changeSet:
-      id: 1
+      id: create-database-001
       author: fponce
       runInTransaction: false
       changes:

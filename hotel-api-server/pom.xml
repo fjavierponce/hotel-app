@@ -59,7 +59,7 @@
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/create-db.yml</changeLogFile>
                     <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432</url>
+                    <url>jdbc:postgresql://localhost:5432/</url>
                 </configuration>
                 <executions>
                     <execution>
