@@ -44,7 +44,7 @@ class HotelServiceImpl implements HotelService {
 
     private void validateHotel(Hotel hotel) throws HotelAppServicesException {
         ValidationResult validationResult = hotelValidator.validate(hotel);
-        if (ValidationResult.Status.FAILED.equals(validationResult.getResult())) {
+        if (!ValidationResult.OK.equals(validationResult)) {
             throw new HotelAppServicesException(validationResult.getErrorMessage());
         }
     }
