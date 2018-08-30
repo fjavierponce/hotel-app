@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,16 @@ class HotelServiceImpl implements HotelService {
         } catch (SQLException e) {
             logger.error("Error creating hotel: {} Cause: {}", hotel, e.getMessage());
             throw new HotelAppServicesException("Error creating the hotel.", e);
+        }
+    }
+
+    @Override
+    public List<Hotel> getHotels() throws HotelAppServicesException {
+        try {
+            return hotelRepository.getHotels();
+        } catch (SQLException e) {
+            logger.error("Error calling getHotels. Cause: {}", e.getMessage());
+            throw new HotelAppServicesException("Error calling getHotels", e);
         }
     }
 }
