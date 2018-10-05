@@ -5,16 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hotel-api-server</artifactId>
     <packaging>jar</packaging>
-    <properties>
-        <spring-boot-maven-plugin.version>2.0.4.RELEASE</spring-boot-maven-plugin.version>
-    </properties>
 
     <parent>
         <groupId>com.fponce</groupId>
         <artifactId>hotel-ns</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
 
     <dependencies>
         <dependency>
@@ -61,10 +57,18 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase-maven-plugin.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/create-db.yml</changeLogFile>
                     <driver>org.postgresql.Driver</driver>
@@ -76,6 +80,28 @@
                         <goals>
                             <goal>update</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy Vue.js frontend content</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/resources/public</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/hotel-app-frontend/dist</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

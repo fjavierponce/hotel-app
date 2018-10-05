@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Project frontend generated
+hotel-api-server/src/main/resources/public
+
 # Log file
 *.log
 
@@ -47,3 +50,8 @@ target/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Vue
+node_modules
+dist
+node
