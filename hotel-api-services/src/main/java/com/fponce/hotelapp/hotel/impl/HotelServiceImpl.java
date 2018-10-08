@@ -4,7 +4,6 @@ import com.fponce.hotelapp.exception.HotelAppServicesException;
 import com.fponce.hotelapp.hotel.service.HotelService;
 import com.fponce.hotelapp.validation.HotelValidator;
 import com.fponce.hotelapp.validation.ValidationResult;
-import com.fponce.hotelapp.validation.Validator;
 import com.hotelapp.hotelapp.model.Hotel;
 import com.fponce.hotelapp.persistence.HotelRepository;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,6 +41,18 @@ class HotelServiceImpl implements HotelService {
             throw new HotelAppServicesException("Error creating the hotel.", e);
         }
     }
+
+
+    public List<Hotel> getHotels() throws HotelAppServicesException {
+        try {
+            List<Hotel> hotels = hotelRepository.getHotels();
+            return hotels;
+        } catch (SQLException e) {
+            logger.error("Error calling get Hotels. Cause: {}", e.getMessage());
+            throw new HotelAppServicesException("Error fetching hotels.", e);
+        }
+    }
+
 
     private void validateHotel(Hotel hotel) throws HotelAppServicesException {
         ValidationResult validationResult = hotelValidator.validate(hotel);
