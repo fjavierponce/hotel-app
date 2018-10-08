@@ -21,13 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 public class HotelControllerTest {
 
-    private static final String API_HOTELS_ENDPOINT = "/api/hotelapp/v1/hotels";
+    private static final String API_HOTELS_ENDPOINT = "/api/v1/hotels";
 
     @Autowired
     private MockMvc mockMvc;
@@ -79,17 +76,16 @@ public class HotelControllerTest {
     public void createHotelWithInvalidParameters() throws Exception {
         Hotel hotelWithInvalidParameters = new Hotel.Builder("").build();
         this.mockMvc
-            .perform(
-                post(API_HOTELS_ENDPOINT)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
-            ).andDo(print())
-            .andExpect(status().isPreconditionFailed()).andReturn();
+                .perform(
+                        post(API_HOTELS_ENDPOINT)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
+                ).andDo(print())
+                .andExpect(status().isPreconditionFailed()).andReturn();
+    }
 
     @Test
     public void getHotels() throws Exception {
-        hotelRepository.createHotel(UUID.randomUUID(), "getHotelsApiTest", 5);
-        hotelRepository.createHotel(UUID.randomUUID(), "getHotelsApiTest2", 5);
         List<Hotel> hotels = hotelRepository.getHotels();
 
         MvcResult result = this.mockMvc

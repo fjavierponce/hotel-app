@@ -3,6 +3,7 @@ package com.fponce.hotelapp.persistence;
 import com.hotelapp.hotelapp.model.Hotel;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,4 +28,10 @@ public interface HotelRepository {
      * @return a hotel model
      */
     Optional<Hotel> getHotel(String hotelName) throws SQLException;
+
+    /**
+     * Returns the list of Hotels registered in the database.
+     * @return a list of Hotels
+     */
+    List<Hotel> getHotels() throws SQLException;
 }
