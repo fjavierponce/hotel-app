@@ -5,6 +5,8 @@ import com.fponce.hotelapp.persistence.HotelRepository;
 import com.hotelapp.hotelapp.model.Hotel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -83,7 +85,7 @@ public class HotelControllerTest {
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
         List<Hotel> hotels = hotelRepository.getHotels();
         MvcResult result = this.mockMvc
-                .perform(get(API_HOTELS_ENDPOINT)).andDo(print())
+                .perform(get(API_HOTELS_ENDPOINT))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$[*]", hasSize(hotels.size())))
                 .andReturn();
