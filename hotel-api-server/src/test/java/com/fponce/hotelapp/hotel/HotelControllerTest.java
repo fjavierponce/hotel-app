@@ -77,7 +77,7 @@ public class HotelControllerTest {
             .andExpect(status().isPreconditionFailed()).andReturn();
     }
 
-    //@Test
+    @Test
     public void getHotels() throws Exception {
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest1", 5);
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
@@ -85,6 +85,7 @@ public class HotelControllerTest {
         MvcResult result = this.mockMvc
                 .perform(get(API_HOTELS_ENDPOINT)).andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$", hasSize(hotels.size()))).andReturn();
+                .andExpect(jsonPath("$[*]", hasSize(hotels.size())))
+                .andReturn();
     }
 }
