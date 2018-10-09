@@ -20,7 +20,7 @@ public interface HotelRepository {
      * @param category the hotel category
      * @throws SQLException if there is an error when executing sql query.
      */
-    void createHotel(UUID id, String name, int category) throws SQLException;
+    Optional<Hotel> createHotel(UUID id, String name, int category) throws SQLException;
 
     /**
      * Returns a Hotel model if it exist in the database, using name in search.

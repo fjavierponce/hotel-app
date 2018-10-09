@@ -11,10 +11,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,10 +26,11 @@ class HotelController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Resource createHotel(@RequestBody Hotel hotel) throws HotelAppServicesException {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Resource<Hotel> createHotel(@RequestBody Hotel hotel) throws HotelAppServicesException {
         logger.info("Calling createHotel with {}", hotel);
-        hotelService.createHotel(hotel);
-        return new Resource(null);
+        Hotel successfullyRegisteredHotel = hotelService.createHotel(hotel);
+        return new Resource(successfullyRegisteredHotel);
     }
 
     @GetMapping

@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,7 +29,7 @@ class HotelServiceImpl implements HotelService {
         this.hotelValidator = hotelValidator;
     }
 
-    public void createHotel(Hotel hotel) throws HotelAppServicesException {
+    public Hotel createHotel(Hotel hotel) throws HotelAppServicesException {
         try {
             validateHotel(hotel);
             Optional<Hotel> hotelInDatabase = hotelRepository.getHotel(hotel.getName());
@@ -35,10 +37,25 @@ class HotelServiceImpl implements HotelService {
                 logger.error("Error creating hotel: {} Cause: Hotel already exists.", hotel);
                 throw new HotelAppServicesException("Entity already exists");
             }
-            hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
+            Optional<Hotel> createdHotel = hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
+            if (createdHotel.isPresent()) {
+                return createdHotel.get();
+            } else {
+                throw new HotelAppServicesException("Error creating the hotel.");
+            }
         } catch (SQLException e) {
             logger.error("Error creating hotel: {} Cause: {}", hotel, e.getMessage());
             throw new HotelAppServicesException("Error creating the hotel.", e);
+        }
+    }
+
+    @Override
+    public List<Hotel> getHotels() throws HotelAppServicesException {
+        try {
+            return hotelRepository.getHotels();
+        } catch (SQLException e) {
+            logger.error("Error calling get Hotels. Cause: {}", e.getMessage());
+            throw new HotelAppServicesException("Error fetching hotels.", e);
         }
     }
 

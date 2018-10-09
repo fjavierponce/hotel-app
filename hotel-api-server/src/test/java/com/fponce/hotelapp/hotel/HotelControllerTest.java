@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,7 +41,7 @@ public class HotelControllerTest {
 
     @Test
     public void createHotelWithNoDuplications() throws Exception {
-        String hotelName = "hotel-test";
+        String hotelName = "HotelTestCreation";
         int category = 5;
         Hotel hotelToCreate = new Hotel.Builder(hotelName).category(category).build();
 
@@ -49,16 +50,14 @@ public class HotelControllerTest {
                 post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andDo(print())
-            .andExpect(status().isCreated()).andReturn();
+            ).andExpect(status().isCreated()).andReturn();
 
         this.mockMvc
             .perform(
                 post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andDo(print())
-            .andExpect(status().isPreconditionFailed()).andReturn();
+            ).andExpect(status().isPreconditionFailed()).andReturn();
 
         Optional<Hotel> hotelFromDatabase = hotelRepository.getHotel(hotelName);
         assertThat(hotelFromDatabase).isNotEmpty();
@@ -78,8 +77,10 @@ public class HotelControllerTest {
             .andExpect(status().isPreconditionFailed()).andReturn();
     }
 
-    @Test
+    //@Test
     public void getHotels() throws Exception {
+        hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest1", 5);
+        hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
         List<Hotel> hotels = hotelRepository.getHotels();
         MvcResult result = this.mockMvc
                 .perform(get(API_HOTELS_ENDPOINT)).andDo(print())
