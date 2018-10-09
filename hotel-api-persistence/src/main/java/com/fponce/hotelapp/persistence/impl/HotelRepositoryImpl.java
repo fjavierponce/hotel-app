@@ -6,10 +6,9 @@ import org.httprpc.sql.Parameters;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,5 +49,22 @@ class HotelRepositoryImpl implements HotelRepository {
             return Optional.of(hotel);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Hotel> getHotels() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        String getHotelsQuery = "SELECT * FROM HOTEL";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(getHotelsQuery);
+        List<Hotel> hotels = new ArrayList<>();
+        while(resultSet.next()){
+            Hotel hotelToAdd = new Hotel.Builder(resultSet.getString("NAME"))
+                    .category(resultSet.getInt("CATEGORY"))
+                    .id(UUID.fromString(resultSet.getString("ID")))
+                    .build();
+            hotels.add(hotelToAdd);
+        }
+        return hotels;
     }
 }
