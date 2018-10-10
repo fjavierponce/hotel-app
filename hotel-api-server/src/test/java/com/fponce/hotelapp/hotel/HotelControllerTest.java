@@ -5,21 +5,18 @@ import com.fponce.hotelapp.persistence.HotelRepository;
 import com.hotelapp.hotelapp.model.Hotel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -84,10 +81,10 @@ public class HotelControllerTest {
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest1", 5);
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
         List<Hotel> hotels = hotelRepository.getHotels();
-        MvcResult result = this.mockMvc
+        this.mockMvc
                 .perform(get(API_HOTELS_ENDPOINT))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[*]", hasSize(hotels.size())))
+                .andExpect(jsonPath("$[*]", notNullValue()))
                 .andReturn();
     }
 }
