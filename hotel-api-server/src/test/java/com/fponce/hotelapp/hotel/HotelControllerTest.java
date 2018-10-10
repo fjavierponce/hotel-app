@@ -12,10 +12,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,7 +40,7 @@ public class HotelControllerTest {
 
     @Test
     public void createHotelWithNoDuplications() throws Exception {
-        String hotelName = "hotel-test";
+        String hotelName = "HotelTestCreation";
         int category = 5;
         Hotel hotelToCreate = new Hotel.Builder(hotelName).category(category).build();
 
@@ -44,16 +49,14 @@ public class HotelControllerTest {
                 post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andDo(print())
-            .andExpect(status().isCreated()).andReturn();
+            ).andExpect(status().isCreated()).andReturn();
 
         this.mockMvc
             .perform(
                 post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andDo(print())
-            .andExpect(status().isPreconditionFailed()).andReturn();
+            ).andExpect(status().isPreconditionFailed()).andReturn();
 
         Optional<Hotel> hotelFromDatabase = hotelRepository.getHotel(hotelName);
         assertThat(hotelFromDatabase).isNotEmpty();
@@ -71,5 +74,17 @@ public class HotelControllerTest {
                     .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
             ).andDo(print())
             .andExpect(status().isPreconditionFailed()).andReturn();
+    }
+
+    @Test
+    public void getHotels() throws Exception {
+        hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest1", 5);
+        hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
+        List<Hotel> hotels = hotelRepository.getHotels();
+        this.mockMvc
+                .perform(get(API_HOTELS_ENDPOINT))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$[*]", notNullValue()))
+                .andReturn();
     }
 }

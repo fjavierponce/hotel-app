@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +25,7 @@ class HotelRepositoryImpl implements HotelRepository {
         this.dataSource = dataSource;
     }
 
-    public void createHotel(UUID id, String name, int category) throws SQLException {
+    public Hotel createHotel(UUID id, String name, int category) throws SQLException {
         Connection connection = dataSource.getConnection();
         String insertHotelSqlCommand = "INSERT INTO HOTEL (ID, NAME, CATEGORY) VALUES (:id, :name, :category)";
         Parameters sqlWithParameters = Parameters.parse(insertHotelSqlCommand);
@@ -32,6 +35,7 @@ class HotelRepositoryImpl implements HotelRepository {
         sqlWithParameters.put("category", category);
         sqlWithParameters.apply(preparedStatement);
         preparedStatement.executeUpdate();
+        return new Hotel.Builder(name).id(id).category(category).build();
     }
 
     public Optional<Hotel> getHotel(String hotelName) throws SQLException {
@@ -50,5 +54,22 @@ class HotelRepositoryImpl implements HotelRepository {
             return Optional.of(hotel);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Hotel> getHotels() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        String getHotelsQuery = "SELECT * FROM HOTEL";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(getHotelsQuery);
+        List<Hotel> hotels = new ArrayList<>();
+        while(resultSet.next()){
+            Hotel hotelToAdd = new Hotel.Builder(resultSet.getString("NAME"))
+                    .category(resultSet.getInt("CATEGORY"))
+                    .id(UUID.fromString(resultSet.getString("ID")))
+                    .build();
+            hotels.add(hotelToAdd);
+        }
+        return hotels;
     }
 }
