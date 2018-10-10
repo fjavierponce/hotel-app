@@ -37,8 +37,7 @@ class HotelServiceImpl implements HotelService {
                 logger.error("Error creating hotel: {} Cause: Hotel already exists.", hotel);
                 throw new HotelAppServicesException("Entity already exists");
             }
-            return hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory())
-                    .orElseThrow(() -> new HotelAppServicesException("Error creating the hotel."));
+            return hotelRepository.createHotel(UUID.randomUUID(), hotel.getName(), hotel.getCategory());
         } catch (SQLException e) {
             logger.error("Error creating hotel: {} Cause: {}", hotel, e.getMessage());
             throw new HotelAppServicesException("Error creating the hotel.", e);

@@ -25,7 +25,7 @@ class HotelRepositoryImpl implements HotelRepository {
         this.dataSource = dataSource;
     }
 
-    public Optional<Hotel> createHotel(UUID id, String name, int category) throws SQLException {
+    public Hotel createHotel(UUID id, String name, int category) throws SQLException {
         Connection connection = dataSource.getConnection();
         String insertHotelSqlCommand = "INSERT INTO HOTEL (ID, NAME, CATEGORY) VALUES (:id, :name, :category)";
         Parameters sqlWithParameters = Parameters.parse(insertHotelSqlCommand);
@@ -34,13 +34,8 @@ class HotelRepositoryImpl implements HotelRepository {
         sqlWithParameters.put("name", name);
         sqlWithParameters.put("category", category);
         sqlWithParameters.apply(preparedStatement);
-        int rowsUpdated = preparedStatement.executeUpdate();
-        if(rowsUpdated > 0) {
-            Hotel registeredHotel = new Hotel.Builder(name).id(id).category(category).build();
-            return Optional.of(registeredHotel);
-        } else {
-            return Optional.empty();
-        }
+        preparedStatement.executeUpdate();
+        return new Hotel.Builder(name).id(id).category(category).build();
     }
 
     public Optional<Hotel> getHotel(String hotelName) throws SQLException {
