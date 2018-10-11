@@ -14,16 +14,15 @@
         <hotel-api-persistence.version>0.0.1-SNAPSHOT</hotel-api-persistence.version>
         <hotel-api-services.version>0.0.1-SNAPSHOT</hotel-api-services.version>
         <jackson-annotations.version>2.9.3</jackson-annotations.version>
-        <java.version>1.8</java.version>
-        <liquibase-core.version>3.6.2</liquibase-core.version>
-        <postgres-sql.version>42.2.4</postgres-sql.version>
+        <java.version>1.9</java.version>
+        <liquibase-maven-plugin.version>3.6.2</liquibase-maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <validation-api.version>2.0.1.Final</validation-api.version>
-        <spring-boot-dependencies.version>2.0.4.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.0.5.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-maven-plugin.version>2.0.5.RELEASE</spring-boot-maven-plugin.version>
         <httprpc.version>5.6</httprpc.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>1.9</maven.compiler.source>
     </properties>
 
 

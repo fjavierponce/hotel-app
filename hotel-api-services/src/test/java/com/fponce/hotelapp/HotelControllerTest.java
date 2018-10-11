@@ -1,8 +1,10 @@
-package com.fponce.hotelapp.hotel;
+package com.fponce.hotelapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fponce.hotelapp.persistence.HotelRepository;
 import com.hotelapp.hotelapp.model.Hotel;
+import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,22 +43,22 @@ public class HotelControllerTest {
 
         this.mockMvc
             .perform(
-                post(API_HOTELS_ENDPOINT)
+                MockMvcRequestBuilders.post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andExpect(status().isCreated()).andReturn();
+            ).andExpect(MockMvcResultMatchers.status().isCreated()).andReturn();
 
         this.mockMvc
             .perform(
-                post(API_HOTELS_ENDPOINT)
+                MockMvcRequestBuilders.post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelToCreate))
-            ).andExpect(status().isPreconditionFailed()).andReturn();
+            ).andExpect(MockMvcResultMatchers.status().isPreconditionFailed()).andReturn();
 
         Optional<Hotel> hotelFromDatabase = hotelRepository.getHotel(hotelName);
-        assertThat(hotelFromDatabase).isNotEmpty();
-        assertThat(hotelFromDatabase.get().getName()).isEqualTo(hotelName);
-        assertThat(hotelFromDatabase.get().getCategory()).isEqualTo(category);
+        Assertions.assertThat(hotelFromDatabase).isNotEmpty();
+        Assertions.assertThat(hotelFromDatabase.get().getName()).isEqualTo(hotelName);
+        Assertions.assertThat(hotelFromDatabase.get().getCategory()).isEqualTo(category);
     }
 
     @Test
@@ -69,11 +66,11 @@ public class HotelControllerTest {
         Hotel hotelWithInvalidParameters = new Hotel.Builder("").build();
         this.mockMvc
             .perform(
-                post(API_HOTELS_ENDPOINT)
+                MockMvcRequestBuilders.post(API_HOTELS_ENDPOINT)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(hotelWithInvalidParameters))
-            ).andDo(print())
-            .andExpect(status().isPreconditionFailed()).andReturn();
+            ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isPreconditionFailed()).andReturn();
     }
 
     @Test
@@ -82,9 +79,9 @@ public class HotelControllerTest {
         hotelRepository.createHotel(UUID.randomUUID(), "hotelCreationTest2", 5);
         List<Hotel> hotels = hotelRepository.getHotels();
         this.mockMvc
-                .perform(get(API_HOTELS_ENDPOINT))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[*]", notNullValue()))
+                .perform(MockMvcRequestBuilders.get(API_HOTELS_ENDPOINT))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*]", Matchers.notNullValue()))
                 .andReturn();
     }
 }

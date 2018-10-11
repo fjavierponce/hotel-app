@@ -33,13 +33,13 @@ class HotelController {
     public Resource<Hotel> createHotel(@RequestBody Hotel hotel) throws HotelAppServicesException {
         logger.info("Calling createHotel with {}", hotel);
         Hotel successfullyRegisteredHotel = hotelService.createHotel(hotel);
-        return new Resource(successfullyRegisteredHotel);
+        return new Resource<Hotel>(successfullyRegisteredHotel);
     }
 
     @GetMapping
     public Resources<Hotel> getHotels() throws HotelAppServicesException {
         logger.info("Calling getHotels.");
         List<Hotel> hotels = hotelService.getHotels();
-        return new Resources<>(hotels);
+        return new Resources<Hotel>(hotels);
     }
 }
