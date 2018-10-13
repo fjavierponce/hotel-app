@@ -1,6 +1,6 @@
 package com.fponce.hotelapp.exception;
 
-public class HotelAppServicesException extends Exception {
+public class HotelAppServicesException extends RuntimeException {
 
     public HotelAppServicesException(String message) {
         super(message);

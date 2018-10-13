@@ -4,7 +4,11 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/hotel_app_fponce
+    hikari:
+      minIdle: 10
+      idle-timeout: 10000
+      maximumPoolSize: 30
 server:
-  port: 8081
+  port: 18080
   servlet:
     context-path: /api/hotelapp
