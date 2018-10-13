@@ -30,7 +30,6 @@
         <module>hotel-api-model</module>
         <module>hotel-api-persistence</module>
         <module>hotel-api-services</module>
-        <module>hotel-api-server</module>
     </modules>
 
     <name>hotel-ns</name>
