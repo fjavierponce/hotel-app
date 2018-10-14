@@ -1,4 +1,4 @@
-package com.fponce.hotelapp.hotel;
+package con.fponce.hotelapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fponce.hotelapp.persistence.HotelRepository;
