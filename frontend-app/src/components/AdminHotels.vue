@@ -30,8 +30,22 @@
     </b-row>
     <br/>
     <b-row class="justify-content-md-center">
-      <b-col sm="8">
-        <b-table striped hover :items="hotels"></b-table>
+      <b-col sm="9">
+        <div>
+          <b-table striped hover small
+                   :current-page="currentPage"
+                   :totalRows="hotels.length"
+                   :per-page="perPage"
+                   :items="hotels"></b-table>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-md-center">
+      <b-col sm="9">
+        <b-pagination align="right"
+                      size="sm"
+                      :per-page="perPage"
+                      v-model="currentPage"/>
       </b-col>
     </b-row>
   </b-container>
@@ -54,7 +68,9 @@ export default {
         {value: '2', text: '★★'},
         {value: '1', text: '★'},
       ],
-      show: true
+      show: true,
+      currentPage: 1,
+      perPage: 20,
     }
   },
   methods: {
